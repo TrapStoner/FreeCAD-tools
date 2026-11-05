@@ -8,10 +8,46 @@ header comment, its `SCRIPT_VERSION` variable, and its banner line, and is print
 
 | Script                              | Current version                                             |
 | ----------------------------------- | ----------------------------------------------------------- |
-| `install-freecad-smart-launcher.sh` | [1.0.0](#install-freecad-smart-launchersh-100---2026-11-05) |
+| `install-freecad-smart-launcher.sh` | [1.1.0](#install-freecad-smart-launchersh-110---2026-11-05) |
 | `migrate-freecad-flatpak-config.sh` | [1.0.0](#migrate-freecad-flatpak-configsh-100---2026-11-05) |
 
 ---
+
+## install-freecad-smart-launcher.sh 1.1.0 - 2026-11-05
+
+### Added
+
+- Launcher data folder step on install and update. It explains what the folder holds (FreeCAD versions,
+  `launcher_config.json`, `time_tracker.json`), shows the current folder with its version count and size, and
+  asks whether to keep it.
+- New folder input with Tab completion, `~` expansion and validation. Rejected: `/`, the home folder, the
+  launcher's own install folder, and folders inside or above the current data folder. Invalid answers are
+  explained and asked again; an empty answer cancels.
+- Optional move of existing content to the new folder. Settings and statistics always move; FreeCAD versions
+  move only when confirmed.
+- Menu entries the launcher created for FreeCAD versions are updated to the new paths when those versions move,
+  including paths with spaces.
+- `--default-data-dir` to skip the question and keep the current folder.
+- `--data-dir <dir>` to set the folder without asking, moving existing content.
+- Check that the launcher is closed before changing the data folder.
+
+### Changed
+
+- A custom data folder is stored in the new folder's `launcher_config.json`, with a pointer in
+  `~/.freecad_launcher_config.json`. The launcher keeps this setting across restarts, unlike a folder changed
+  inside the launcher (0.0.4 code), which is forgotten on restart.
+- `--uninstall` reports the actual data folder it left in place instead of assuming `~/Applications/FreeCAD`.
+- Arguments can be given in any order.
+
+### Fixed
+
+- `--help` printed one line of code after the usage text.
+
+### Safety
+
+- Existing files in the new folder are never overwritten; they are listed as not moved.
+- Only empty folders are removed after a move, and the parent only when it is the default `~/Applications`.
+- Without a terminal, nothing is asked and the current folder is kept.
 
 ## install-freecad-smart-launcher.sh 1.0.0 - 2026-11-05
 

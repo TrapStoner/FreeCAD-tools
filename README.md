@@ -5,10 +5,11 @@ Two small, dependency-light Bash scripts for running FreeCAD on Linux through
 
 | Script                              | Version | Purpose                                                                                      |
 | ----------------------------------- | ------- | -------------------------------------------------------------------------------------------- |
-| `install-freecad-smart-launcher.sh` | 1.0.0   | Install, update or uninstall the launcher AppImage as a proper desktop app                   |
+| `install-freecad-smart-launcher.sh` | 1.1.0   | Install, update or uninstall the launcher AppImage as a desktop app; choose its data folder  |
 | `migrate-freecad-flatpak-config.sh` | 1.0.0   | Move FreeCAD settings and user data from the Flatpak to the native profile used by AppImages |
 
-Both run as your normal user, never need `sudo`, and only write inside your home directory.
+Both run as your normal user and never need `sudo`. They only write inside your home directory, except for a
+launcher data folder you choose elsewhere with `--data-dir`.
 
 Contents:
 
@@ -29,7 +30,7 @@ Contents:
 | ------------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Bash 4+, coreutils, `sed`, `grep`          | both      | Present on every mainstream distro                                                                                           |
 | `fusermount3` (package `fuse3`)            | installer | Installed by default on Fedora. The launcher uses the static AppImage runtime, so `fuse-libs` / `libfuse2` is **not** needed |
-| `python3`                                  | migrate   | Only used to compare and merge `user.cfg` files (standard library only)                                                      |
+| `python3`                                  | both      | Standard library only. Migrate: compare and merge `user.cfg`. Installer: read and update the launcher's data folder settings; without it the data folder step is skipped |
 | `update-desktop-database`, `kbuildsycoca6` | installer | Optional. Used to refresh menus immediately when available                                                                   |
 
 Developed and tested on **Fedora 44, KDE Plasma (Wayland)**. Nothing is Fedora- or KDE-specific; other desktops
@@ -61,7 +62,9 @@ terminal command and a correct taskbar icon on Wayland.
 ### Usage
 
 ```bash
-./install-freecad-smart-launcher.sh <FreeCAD_Smart_Launcher-*.AppImage>   # install or update
+./install-freecad-smart-launcher.sh <FreeCAD_Smart_Launcher-*.AppImage>   # install or update, asks about the data folder
+./install-freecad-smart-launcher.sh <file.AppImage> --default-data-dir     # don't ask, keep the current folder
+./install-freecad-smart-launcher.sh <file.AppImage> --data-dir /mnt/big/FreeCAD
 ./install-freecad-smart-launcher.sh --uninstall
 ./install-freecad-smart-launcher.sh --version
 ./install-freecad-smart-launcher.sh --help
@@ -70,7 +73,9 @@ terminal command and a correct taskbar icon on Wayland.
 | Option            | Description                                                                                   |
 | ----------------- | --------------------------------------------------------------------------------------------- |
 | `<file.AppImage>` | Install it, or update an existing install. The header shows `install` or `update` accordingly |
-| `--uninstall`     | Remove everything the installer created                                                       |
+| `--default-data-dir` | Don't ask about the data folder; keep the current one                                      |
+| `--data-dir DIR`  | Set the launcher data folder without asking and move existing content there. `DIR` may be outside your home |
+| `--uninstall`     | Remove everything the installer created. The data folder is left untouched                    |
 | `-V`, `--version` | Print the script version                                                                      |
 | `-h`, `--help`    | Print usage                                                                                   |
 
@@ -85,12 +90,34 @@ terminal command and a correct taskbar icon on Wayland.
 
 Each step prints one line with what it touched. The input file is checked to be a real AppImage before anything is written.
 
+### Launcher data folder
+
+The launcher keeps everything it downloads and tracks in one folder, `~/Applications/FreeCAD` by default:
+every FreeCAD version installed through it (one AppImage each), its settings (`launcher_config.json`) and
+usage statistics (`time_tracker.json`). On install and update the installer shows the current folder with its
+version count and size, then asks whether to keep it. Pick a roomy disk if you keep many versions.
+
+- **New folder.** Type a path (`~` and relative paths work, Tab completes). An empty answer cancels. Rejected,
+  with the reason shown: `/`, your home folder, the current folder, the launcher's own install folder, anything
+  inside or above the current folder, an existing file, or a place you can't write to.
+- **Existing content.** Settings and statistics always follow the move. FreeCAD versions move only when you
+  confirm. Files that already exist in the new folder are never overwritten; they are listed as not moved.
+- **Menu entries.** When versions move, the `FreeCAD x.y` menu entries the launcher created are updated to the
+  new paths, including paths with spaces.
+- **Persistence.** A custom folder is stored in `<folder>/launcher_config.json` plus a pointer in
+  `~/.freecad_launcher_config.json`, which the launcher keeps across restarts. A folder changed inside the
+  launcher is forgotten on restart in the 0.0.4 code, so change it with `--data-dir DIR` instead.
+- **Launcher must be closed.** The installer refuses to change the folder while the launcher is running.
+- **No terminal.** Nothing is asked and the current folder is kept. Use `--data-dir DIR` for unattended runs.
+- **Cleanup.** After a move only empty folders are removed, and the parent only when it is the default
+  `~/Applications`.
+
 ### Design notes
 
 - **Fixed file name.** The launcher's own "Update launcher" button downloads the new release and swaps it in
   at the same path it runs from. A version-less name means the menu entry keeps working after every update.
-- **Not in `~/Applications/FreeCAD`.** That is the launcher's data folder, and it lists every `*.AppImage`
-  in it as a FreeCAD version. Installing there would make the launcher show up in its own list.
+- **Not in the launcher's data folder** (default `~/Applications/FreeCAD`). The launcher lists every
+  `*.AppImage` in that folder as a FreeCAD version. Installing there would make the launcher show up in its own list.
 - **Desktop file named after the binary.** The AppImage's executable is `freecad-smart-launcher`, which Qt
   reports as the Wayland app ID. Matching the `.desktop` name (plus `StartupWMClass`) gives the correct taskbar
   icon and window grouping.
@@ -104,8 +131,8 @@ Both keep the same path, so nothing else changes.
 ### Uninstalling
 
 `--uninstall` removes the AppImage, menu entry, icon and command link, then refreshes menus.
-It deliberately keeps `~/Applications/FreeCAD`, which holds your downloaded FreeCAD builds and the launcher's
-config and statistics.
+It deliberately keeps the launcher data folder (default `~/Applications/FreeCAD`), which holds your downloaded
+FreeCAD builds and the launcher's config and statistics. The installer prints the folder it left in place.
 
 ### Troubleshooting
 
@@ -114,6 +141,9 @@ config and statistics.
 | Menu entry not visible yet                  | Log out and back in, or run `kbuildsycoca6`                                                                    |
 | `freecad-smart-launcher: command not found` | `~/.local/bin` is not on your `PATH`; the installer prints a warning for this. The menu entry still works      |
 | Generic icon in the taskbar                 | Make sure no older, differently named `.desktop` file for the launcher exists in `~/.local/share/applications` |
+| `FreeCAD Smart Launcher is running`         | Close the launcher, then run the installer again. A stale `~/.freecad_launcher.lock` from a crash is ignored   |
+| FreeCAD versions missing after a move       | You declined moving the existing content. Move the `*.AppImage` files into the new folder yourself          |
+| Data folder reset after restarting the launcher | It was changed inside the launcher (0.0.4). Set it with `--data-dir DIR` instead                           |
 
 ---
 
@@ -275,7 +305,7 @@ with an empty temporary profile and would ignore the migrated settings.
 | Code  | `install-freecad-smart-launcher.sh`                                               | `migrate-freecad-flatpak-config.sh`                     |
 | ----- | --------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | `0`   | Success, or `--help` / `--version`                                                | Success, or `--help` / `--list-versions` / `-V`         |
-| `1`   | File missing or not an AppImage                                                   | No Flatpak profile, unknown version, or FreeCAD running |
+| `1`   | File missing or not an AppImage, rejected data folder, or launcher running        | No Flatpak profile, unknown version, or FreeCAD running |
 | `2`   | Wrong arguments                                                                   | Unknown option                                          |
 | other | A step failed: the failing command's exit code, plus `failed at line N` on stderr | Same                                                    |
 
@@ -286,20 +316,7 @@ is piped or redirected, when `NO_COLOR` is set, or when `TERM=dumb`, so logs sta
 
 ## Changelog
 
-### 1.0.0 (2026-11-05)
-
-`install-freecad-smart-launcher.sh`
-
-- Per-user install, update and uninstall of the launcher AppImage
-- Menu entry, icon, `~/.local/bin` command and Wayland-correct taskbar icon
-- AppImage validation and colored step output
-
-`migrate-freecad-flatpak-config.sh`
-
-- Flatpak to native migration of settings and user data with sandbox path rewriting
-- Version selection (`-v`) and listing (`--list-versions`), including 1.0-and-older profiles
-- Interactive merge with an existing native profile, `--keep-from` and `--dry-run`
-- Backups of everything replaced, warnings for paths that need manual attention
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## References
 
