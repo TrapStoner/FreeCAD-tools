@@ -21,6 +21,7 @@ Contents:
 - [Output](#output)
 - [Changelog](#changelog)
 - [References](#references)
+- [License](#license)
 
 ---
 
@@ -325,3 +326,7 @@ See [CHANGELOG.md](CHANGELOG.md).
 - [FreeCAD: `src/Gui/MainWindow.cpp`](https://github.com/FreeCAD/FreeCAD/blob/main/src/Gui/MainWindow.cpp) and
   [`src/Gui/ToolBarManager.cpp`](https://github.com/FreeCAD/FreeCAD/blob/main/src/Gui/ToolBarManager.cpp) (window and toolbar layout)
 - [FreeCAD wiki: Version Migration](https://wiki.freecad.org/Version_Migration)
+
+## License
+
+[MIT](LICENSE)
