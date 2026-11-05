@@ -1,0 +1,54 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FreeCAD Linux Helpers logo: a terminal prompt above FreeCAD version tags 1.0, 1.1 and 26.3">
+  <defs>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ef4a50"/>
+      <stop offset="1" stop-color="#b3202a"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b9bf0"/>
+      <stop offset="1" stop-color="#2a5fb0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.36" r="0.6">
+      <stop offset="0" stop-color="#2a5fb0" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#0d1117" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1a2230" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <!-- panel -->
+  <rect width="512" height="512" rx="112" fill="#0d1117"/>
+  <rect width="512" height="512" rx="112" fill="url(#grid)"/>
+  <rect width="512" height="512" rx="112" fill="url(#glow)"/>
+
+  <!-- terminal window -->
+  <rect x="86" y="62" width="340" height="170" rx="24" fill="#111826" stroke="#3a4658" stroke-width="3"/>
+  <path d="M86 86 a24 24 0 0 1 24 -24 H402 a24 24 0 0 1 24 24 V100 H86 Z" fill="#1a2434"/>
+  <circle cx="116" cy="81" r="6.5" fill="#ef4a50"/>
+  <circle cx="138" cy="81" r="6.5" fill="#5a6678"/>
+  <circle cx="160" cy="81" r="6.5" fill="#5b9bf0"/>
+  <!-- prompt: chevron + cursor -->
+  <path d="M130 134 L182 168 L130 202" fill="none" stroke="url(#red)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="204" y="186" width="84" height="22" rx="8" fill="url(#blue)"/>
+
+  <!-- version tags, swapped and migrated with arrows -->
+  <g font-family="'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="29" text-anchor="middle">
+    <rect x="62" y="262" width="108" height="56" rx="14" fill="#111826" stroke="#5a6678" stroke-width="3"/>
+    <text x="116" y="299" fill="#c4cdd9">1.0</text>
+    <rect x="202" y="262" width="108" height="56" rx="14" fill="#111826" stroke="#5b9bf0" stroke-width="3"/>
+    <text x="256" y="299" fill="#8fbcf7">1.1</text>
+    <rect x="342" y="262" width="108" height="56" rx="14" fill="#1b1218" stroke="#ef4a50" stroke-width="3"/>
+    <text x="396" y="299" fill="#f4777c">26.3</text>
+  </g>
+  <g fill="none" stroke="#8b98a9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M178 290 H194 M187 282 L195 290 L187 298"/>
+    <path d="M318 290 H334 M327 282 L335 290 L327 298"/>
+  </g>
+
+  <!-- wordmark -->
+  <g font-family="'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" text-anchor="middle">
+    <text x="256" y="400" font-size="74" font-weight="800" letter-spacing="1" fill="url(#red)">FreeCAD</text>
+    <text x="97.5" y="446" font-size="27" font-weight="600" letter-spacing="9" text-anchor="start" fill="#8b98a9">LINUX HELPERS</text>
+  </g>
+</svg>
