@@ -1,0 +1,61 @@
+<svg width="1200" height="260" viewBox="0 0 1200 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FreeCAD Linux helper scripts: Smart Launcher installer and Flatpak settings migration">
+  <defs>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ef4a50"/>
+      <stop offset="1" stop-color="#b3202a"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b9bf0"/>
+      <stop offset="1" stop-color="#2a5fb0"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0d1117" stop-opacity="1"/>
+      <stop offset="0.14" stop-color="#0d1117" stop-opacity="0"/>
+      <stop offset="0.86" stop-color="#0d1117" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0d1117" stop-opacity="1"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#2a5fb0" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#0d1117" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M26 0H0V26" fill="none" stroke="#1a2230" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="260" rx="14" fill="#0d1117"/>
+  <rect width="1200" height="260" rx="14" fill="url(#grid)"/>
+  <rect width="1200" height="260" rx="14" fill="url(#glow)"/>
+  <rect width="1200" height="260" rx="14" fill="url(#fade)"/>
+
+  <!-- isometric wireframe cubes, one each side -->
+  <g fill="none" stroke-linejoin="round" stroke-width="1.8">
+    <g stroke="url(#red)" opacity="0.9" transform="translate(150 130)">
+      <path d="M0-52 L45-26 V26 L0 52 L-45 26 V-26 Z"/>
+      <path d="M0 0 L45-26 M0 0 L-45-26 M0 0 V52"/>
+    </g>
+    <g stroke="url(#blue)" opacity="0.9" transform="translate(1050 130)">
+      <path d="M0-52 L45-26 V26 L0 52 L-45 26 V-26 Z"/>
+      <path d="M0 0 L45-26 M0 0 L-45-26 M0 0 V52"/>
+    </g>
+  </g>
+
+  <!-- title -->
+  <g font-family="'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" text-anchor="middle">
+    <text x="600" y="118" font-size="54" font-weight="700" letter-spacing="1">
+      <tspan fill="url(#red)">FreeCAD</tspan><tspan fill="#e6edf3"> Linux Helpers</tspan>
+    </text>
+    <text x="600" y="156" font-size="19" fill="#8b98a9" letter-spacing="0.6">Smart Launcher installer  &#183;  Flatpak settings migration</text>
+  </g>
+
+  <!-- dimension line -->
+  <g stroke="#3d7bd9" stroke-width="1.4" opacity="0.8">
+    <path d="M380 196H820"/>
+    <path d="M380 188V204M820 188V204"/>
+    <path d="M380 196l9-4.5v9zM820 196l-9-4.5v9z" fill="#3d7bd9" stroke="none"/>
+  </g>
+  <g font-family="'Inter','Segoe UI',Arial,sans-serif" text-anchor="middle">
+    <rect x="496" y="184" width="208" height="24" rx="5" fill="#0d1117"/>
+    <text x="600" y="201" font-size="14" fill="#5b9bf0" letter-spacing="1.4">NO SUDO  &#183;  PER-USER</text>
+  </g>
+</svg>

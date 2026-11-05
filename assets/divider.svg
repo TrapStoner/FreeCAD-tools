@@ -1,0 +1,35 @@
+<svg width="1200" height="40" viewBox="0 0 1200 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="section divider">
+  <defs>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6b7a90" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#6b7a90" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#6b7a90" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- rule, fading out at both ends -->
+  <rect x="0" y="19.4" width="1200" height="1.2" fill="url(#rule)"/>
+
+  <!-- sketch points on the rule: x/y/z axis colors -->
+  <g>
+    <rect x="387" y="17" width="6" height="6" fill="#e5484d" transform="rotate(45 390 20)"/>
+    <rect x="477" y="17" width="6" height="6" fill="#30a46c" transform="rotate(45 480 20)"/>
+    <rect x="537" y="17" width="6" height="6" fill="#3e8ef7" transform="rotate(45 540 20)"/>
+    <rect x="657" y="17" width="6" height="6" fill="#3e8ef7" transform="rotate(45 660 20)"/>
+    <rect x="717" y="17" width="6" height="6" fill="#30a46c" transform="rotate(45 720 20)"/>
+    <rect x="807" y="17" width="6" height="6" fill="#e5484d" transform="rotate(45 810 20)"/>
+  </g>
+
+  <!-- origin triad: Z up, X right-down, Y left-down (FreeCAD axis colors) -->
+  <g stroke-width="2.4" stroke-linecap="round" fill="none">
+    <path d="M600 21 L600 6" stroke="#3e8ef7"/>
+    <path d="M600 21 L613 28.5" stroke="#e5484d"/>
+    <path d="M600 21 L587 28.5" stroke="#30a46c"/>
+  </g>
+  <g>
+    <path d="M600 2.5 L595.6 9.5 L604.4 9.5 Z" fill="#3e8ef7"/>
+    <path d="M616.2 30.4 L608.5 28.6 L612.9 21.4 Z" fill="#e5484d"/>
+    <path d="M583.8 30.4 L591.5 28.6 L587.1 21.4 Z" fill="#30a46c"/>
+    <circle cx="600" cy="21" r="2.6" fill="#6b7a90"/>
+  </g>
+</svg>
