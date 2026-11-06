@@ -9,7 +9,7 @@ header comment, its `SCRIPT_VERSION` variable, and its banner line, and is print
 | Script                              | Current version                                             |
 | ----------------------------------- | ----------------------------------------------------------- |
 | `install-freecad-smart-launcher.sh` | [1.1.0](#install-freecad-smart-launchersh-110---2026-11-05) |
-| `migrate-freecad-flatpak-config.sh` | [1.0.1](#migrate-freecad-flatpak-configsh-101---2026-11-06) |
+| `migrate-freecad-flatpak-config.sh` | [1.0.2](#migrate-freecad-flatpak-configsh-102---2026-11-06) |
 
 ---
 
@@ -64,6 +64,14 @@ header comment, its `SCRIPT_VERSION` variable, and its banner line, and is print
 - Menu refresh through `update-desktop-database` and `kbuildsycoca6` when available.
 - Colored, one-line-per-step output that switches off when piped, with `NO_COLOR`, or with `TERM=dumb`.
 - `-V` / `--version` and `-h` / `--help`.
+
+## migrate-freecad-flatpak-config.sh 1.0.2 - 2026-11-06
+
+### Fixed
+
+- A `user.cfg` that cannot be read (truncated, empty or hand-edited) is now reported and the comparison is
+  skipped, instead of ending in a Python traceback after the profile was replaced. The Flatpak settings are used
+  and the unreadable file stays in the backup.
 
 ## migrate-freecad-flatpak-config.sh 1.0.1 - 2026-11-06
 

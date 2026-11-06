@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# migrate-freecad-flatpak-config.sh  v1.0.1
+# migrate-freecad-flatpak-config.sh  v1.0.2
 #
 # Copy FreeCAD settings + user data from the Flathub Flatpak (org.freecad.FreeCAD)
 # to the native locations used by AppImage builds (e.g. ones run by FreeCAD Smart Launcher).
@@ -18,7 +18,7 @@
 # unversioned folder; those are migrated as-is and newer FreeCAD offers its own upgrade on start.
 set -euo pipefail
 
-SCRIPT_VERSION="1.0.1"
+SCRIPT_VERSION="1.0.2"
 VER_ARG="${FC_VER:-}"; DRY=0; KEEP_FROM=""; LIST=0
 while (( $# )); do
   case "$1" in
@@ -93,7 +93,17 @@ def is_layout(p, n):
             or (p == "BaseApp/Preferences/General" and n in LAYOUT_GENERAL))
 def is_start(p, n): return p == "BaseApp/Preferences/Mod/Start" and n == "ShowOnStartup"
 
-keep_tree, target_tree = ET.parse(keep_path), ET.parse(target_path)
+def load(path):
+    try:
+        return ET.parse(path)
+    except (ET.ParseError, OSError) as e:      # truncated, hand-edited or missing: report it, don't crash
+        home = os.path.expanduser("~")
+        shown = "~" + path[len(home):] if path.startswith(home + os.sep) else path
+        print(f"   {YL('⚠')} Could not read {shown}: {e}")
+        print(f"   {D('Skipping the comparison. The Flatpak settings are used as they are.')}")
+        sys.exit(0)
+
+keep_tree, target_tree = load(keep_path), load(target_path)
 old, new = flat(keep_tree.getroot()), flat(target_tree.getroot())
 diffs = [k for k, e in old.items() if k not in new or new[k].tag != e.tag or val(new[k]) != val(e)]
 if not diffs:

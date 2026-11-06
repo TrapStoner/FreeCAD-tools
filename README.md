@@ -7,7 +7,7 @@
 [![Bash](https://img.shields.io/badge/Bash-4%2B-cb333b?style=for-the-badge&logo=gnubash&logoColor=white&labelColor=0d1117)](install-freecad-smart-launcher.sh)
 [![FreeCAD](https://img.shields.io/badge/FreeCAD-Smart_Launcher-3d7bd9?style=for-the-badge&logo=freecad&logoColor=white&labelColor=0d1117)](https://github.com/deltahedra3d/freecad-launcher)
 [![Installer](https://img.shields.io/badge/installer-v1.1.0-cb333b?style=for-the-badge&labelColor=0d1117)](CHANGELOG.md)
-[![Migrate](https://img.shields.io/badge/migrate-v1.0.1-3d7bd9?style=for-the-badge&labelColor=0d1117)](CHANGELOG.md)
+[![Migrate](https://img.shields.io/badge/migrate-v1.0.2-3d7bd9?style=for-the-badge&labelColor=0d1117)](CHANGELOG.md)
 [![No sudo](https://img.shields.io/badge/No_sudo-per--user-22c55e?style=for-the-badge&labelColor=0d1117)](#two-scripts)
 
 **Every FreeCAD version, one click away.** [FreeCAD Smart Launcher](https://github.com/deltahedra3d/freecad-launcher) swaps between stable, weekly and pull-request builds. These scripts make it behave like it shipped with your distro.<br />
@@ -29,7 +29,7 @@
 |             | `install-freecad-smart-launcher.sh`                                                                                                                                                        | `migrate-freecad-flatpak-config.sh`                                                                                                         |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Does**    | Takes the launcher AppImage you download and installs it like a native app, with a menu entry, icon, terminal command and correct Wayland taskbar icon. You choose where it keeps its data | Copies FreeCAD settings, macros and addons from the Flatpak to the folders AppImages use, and lets you pick which existing settings to keep |
-| **Version** | 1.1.0                                                                                                                                                                                      | 1.0.1                                                                                                                                       |
+| **Version** | 1.1.0                                                                                                                                                                                      | 1.0.2                                                                                                                                       |
 
 Both run as your normal user, never need `sudo`, and only write inside your home directory (except a data folder you choose elsewhere).
 
@@ -245,6 +245,7 @@ If the native side already has a `user.cfg` (for example the AppImage ran once b
 - Invalid input is rejected and asked again. `Ctrl-D` counts as "no" / "none". `Ctrl-C` stops and keeps the Flatpak settings.
 - Without a terminal (piped or scripted) nothing is asked and the Flatpak settings are used. `--dry-run` shows the same comparison without asking.
 - If the Flatpak profile has no `user.cfg`, your existing settings are kept as they are.
+- A `user.cfg` that can't be read is reported and skipped, and the Flatpak settings are used.
 - The layout settings come from FreeCAD's own source (`MainWindow.cpp`, `ToolBarManager.cpp`, `DockWindowManager.cpp`). The launcher itself does not change toolbar settings.
 
 </details>
