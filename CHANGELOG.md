@@ -9,7 +9,7 @@ header comment, its `SCRIPT_VERSION` variable, and its banner line, and is print
 | Script                              | Current version                                             |
 | ----------------------------------- | ----------------------------------------------------------- |
 | `install-freecad-smart-launcher.sh` | [1.1.0](#install-freecad-smart-launchersh-110---2026-11-05) |
-| `migrate-freecad-flatpak-config.sh` | [1.0.0](#migrate-freecad-flatpak-configsh-100---2026-11-05) |
+| `migrate-freecad-flatpak-config.sh` | [1.0.1](#migrate-freecad-flatpak-configsh-101---2026-11-06) |
 
 ---
 
@@ -64,6 +64,13 @@ header comment, its `SCRIPT_VERSION` variable, and its banner line, and is print
 - Menu refresh through `update-desktop-database` and `kbuildsycoca6` when available.
 - Colored, one-line-per-step output that switches off when piped, with `NO_COLOR`, or with `TERM=dumb`.
 - `-V` / `--version` and `-h` / `--help`.
+
+## migrate-freecad-flatpak-config.sh 1.0.1 - 2026-11-06
+
+### Fixed
+
+- A Flatpak profile without a `user.cfg` no longer crashes the settings step (`failed at line 319` in a dry run,
+  an error in the merge in a real run). The existing native settings are kept as they are and the run says so.
 
 ## migrate-freecad-flatpak-config.sh 1.0.0 - 2026-11-05
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# migrate-freecad-flatpak-config.sh  v1.0.0
+# migrate-freecad-flatpak-config.sh  v1.0.1
 #
 # Copy FreeCAD settings + user data from the Flathub Flatpak (org.freecad.FreeCAD)
 # to the native locations used by AppImage builds (e.g. ones run by FreeCAD Smart Launcher).
@@ -18,7 +18,7 @@
 # unversioned folder; those are migrated as-is and newer FreeCAD offers its own upgrade on start.
 set -euo pipefail
 
-SCRIPT_VERSION="1.0.0"
+SCRIPT_VERSION="1.0.1"
 VER_ARG="${FC_VER:-}"; DRY=0; KEEP_FROM=""; LIST=0
 while (( $# )); do
   case "$1" in
@@ -314,7 +314,15 @@ ok "regenerated on first start"
 
 if [[ -n "$KEEP_CFG" ]]; then
   printf '\n %s%s◆ Existing settings%s\n\n' "$B" "$CYN" "$R"
-  if (( DRY )); then
+  if [[ ! -f "$SRC_CFG/user.cfg" ]]; then
+    # Nothing from the Flatpak to override them, so the existing settings simply stay in force.
+    if (( DRY )); then
+      printf '   %sFlatpak has no user.cfg: your existing settings would be kept as they are.%s\n' "$D" "$R"
+    else
+      cp -p "$KEEP_CFG" "$DST_CFG/user.cfg"
+      printf '   %sFlatpak has no user.cfg: kept your existing settings as they are.%s\n' "$D" "$R"
+    fi
+  elif (( DRY )); then
     # nothing copied yet: compare against the Flatpak original (read-only)
     cmp_target="$(mktemp)"; cp "$SRC_CFG/user.cfg" "$cmp_target"
     merge_settings "${EXISTING_CFG:-$KEEP_CFG}" "$cmp_target" list; rm -f "$cmp_target"
